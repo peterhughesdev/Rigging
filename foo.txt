@@ -1,0 +1,9 @@
+Foo
+===
+### ${foo|Default}
+#{bar.bing|Mouseover me!}
+
+@{mouseover.bar.bing|foo|Over}
+@{mouseout.bar|foo|Off}
+@{click|foo|Clicked}
+
