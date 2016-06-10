@@ -1,0 +1,19 @@
+{
+  "name": "rigging",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/peterhughesdev/Rigging.git"
+  },
+  "author": "Peter Hughes <peterhughes.dev@gmail.com> (http://www.peterhughesdev.co.uk/)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/peterhughesdev/Rigging/issues"
+  },
+  "homepage": "https://github.com/peterhughesdev/Rigging#readme"
+}
