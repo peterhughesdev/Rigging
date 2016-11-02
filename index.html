@@ -1,61 +1,11 @@
 <html>
 	<head>
 		<title>Rigging</title>
-		<!-- link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
-
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-		<script src="http://ajax.aspnetcdn.com/ajax/knockout/knockout-3.0.0.js"></script -->
-
-		<script src="js/lib/jquery-1.9.1.min.js"></script>
-		<script src="js/lib/knockout-2.2.1.js"></script>
-
-		<script src="js/markdown.js"></script>
-
-		<script src="js/rigging/core.js"></script>
-		<script src="js/rigging/core.util.js"></script>
-		<script src="js/rigging/core.token.js"></script>
-		<script src="js/rigging/core.events.js"></script>
-		<script src="js/rigging/core.passage.js"></script>
-		<script src="js/rigging/core.registry.js"></script>
-		<script src="js/rigging/core.parser.js"></script>
-		<script src="js/rigging/core.parsers.js"></script>
-		<script src="js/rigging/core.formatter.js"></script>
-		<script src="js/rigging/core.formatters.js"></script>
-
+		
 		<style>
-		.var, .trigger { display: inline-block; }
 		</style>
 	</head>
 	<body>
-		<div id="upload-section">
-			<label>Select file</label>
-			<input id="upload-file-select" type="file" />
-		</div>
-
-		<dl id="output-section" data-bind="template : { name : formatter.getTemplate, foreach : passages }"></dl>
-	</body>
-
-	<script>
-	var reader = new FileReader(),
-		selector = $('#upload-file-select')[0];
-
-	reader.onload = parseFile;
-
-	var rig = Rigging.create();
-
-	function selectFile() {
-		var file = selector.files[0];
-		if (file) {
-			reader.readAsText(file);
-		}
-	}
-
-	function parseFile(e) {
-		rig.parser.parse(e.currentTarget.result);
-	}
-
-	$(function() {
-		$('body').on('change', '#upload-file-select', selectFile);
-	});
-	</script>
+        <h2>Rigging</h2>
+    </body>
 </html>
