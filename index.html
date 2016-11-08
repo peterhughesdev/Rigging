@@ -1,11 +1,39 @@
 <html>
 	<head>
 		<title>Rigging</title>
-		
-		<style>
-		</style>
+	
+        <link href="https://cdn.quilljs.com/1.1.4/quill.bubble.css" rel="stylesheet">
+        <style>
+             #container { display : flex; }
+             #container > div { flex : 1 1 auto; width : 50%; }
+             #editor { background : #fafbea; }
+             #view { border-left : 1px solid #ccc; }
+        </style>
 	</head>
 	<body>
-        <h2>Rigging</h2>
+        <div id="container">
+            <div id="editor">
+                <p>Start writing...</p>
+            </div>
+            <div id="view">
+            </div>
+        </div>
+        <script src="https://cdn.quilljs.com/1.1.4/quill.js"></script>
+        <script>
+            Rigging = require('./src/rigging');
+        </script>
+        <script>
+              var quill = new Quill('#editor', {
+                  theme: 'bubble'
+              });
+
+              var rigging = new Rigging({
+                  el : '#view'
+              });
+
+              quill.on('text-change', function() {
+                  rigging.parse(quill.getText());
+              });
+        </script>
     </body>
 </html>

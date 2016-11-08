@@ -18,6 +18,9 @@
     "url": "https://github.com/peterhughesdev/Rigging/issues"
   },
   "homepage": "https://github.com/peterhughesdev/Rigging#readme",
+  "dependencies" : {
+      "handlebars" : "^4.0.5"
+  },
   "devDependencies": {
       "electron-packager": "^7.0.1",
       "electron-prebuilt": "^1.1.0"

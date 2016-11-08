@@ -1,9 +1,7 @@
-Foo
-===
-### ${foo|Default}
-#{bar.bing|Mouseover me!}
-
-@{mouseover.bar.bing|foo|Over}
-@{mouseout.bar|foo|Off}
-@{click|foo|Clicked}
-
+{
+   _id : 108faEb124,
+   foo : 1,
+   bar : 124214,
+   template : "tpl_124",
+   passage : "This is a thing that goes {{link: 215fae3ba|somewhere}}"
+}
