@@ -4,6 +4,7 @@
 	
         <link href="https://cdn.quilljs.com/1.1.4/quill.bubble.css" rel="stylesheet">
         <style>
+             * { background: white; }
              #container { display : flex; }
              #container > div { flex : 1 1 auto; width : 50%; }
              #editor { background : #fafbea; }
@@ -28,7 +29,9 @@
               });
 
               var rigging = new Rigging({
-                  el : '#view'
+                  render : function(html) {
+                      document.querySelector('#view').innerHTML = html;
+                  }
               });
 
               quill.on('text-change', function() {

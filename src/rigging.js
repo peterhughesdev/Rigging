@@ -12,6 +12,10 @@ module.exports = function Rigging(opts) {
 
     var self = this;
 
+    Handlebars.registerHelper('goto', function(id, text) {
+        return new Handlebars.SafeString('<a href="#" onclick="rigging.render(' + id + ')">' + text + '</a>');
+    });
+
     this.set = function(name, val) {
         state.vars[name] = val;
     };
@@ -34,7 +38,13 @@ module.exports = function Rigging(opts) {
          self.render();
     }
 
-    this.render = function() {
-        document.querySelector(opts.el).innerHTML = state.parts[state.current](state);
+    this.render = function(part) {
+        if (part === undefined) {
+            part = state.current;
+        }
+
+        state.current = part;
+
+        opts.render(state.parts[part](state));
     }
 }
