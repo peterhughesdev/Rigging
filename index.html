@@ -36,8 +36,7 @@
                       document.querySelector('#view').innerHTML = html;
                   },
                   onError : function(err) {
-                      document.querySelector('#error').innerHTML = 
-                          '<div class="error">' + err.stack + '</div>'
+                      console.log(err);
                   }
               });
 

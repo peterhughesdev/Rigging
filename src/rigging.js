@@ -21,6 +21,23 @@ module.exports = function Rigging(opts) {
         return '<a href="#" onclick="rigging.render(' + id + ')">' + text + '</a>';
     });
 
+    env.addExtension('var', {
+        tags : ['var'],
+        parse : function(parser, nodes, lexer) {
+            var token = parser.nextToken();
+            var args = parser.parseSignature(null, true);
+
+            parser.advanceAfterBlockEnd(token.value);
+
+            return new nodes.CallExtension(this, 'run', args);
+        },
+        run : function(context, args) {
+            Object.keys(args).forEach(function(key) {
+                state.vars[key] = args[key];
+            });
+        }
+    });
+
     this.parse = function(blob) {
         var parts = blob.split('--').map(function(part) {
              var template = Nunjucks.compile(part, env);
