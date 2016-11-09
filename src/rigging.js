@@ -1,4 +1,9 @@
-var Handlebars = require('handlebars');
+var Nunjucks = require('nunjucks');
+
+var env = Nunjucks.configure(null, {
+    autoescape : false,
+    throwOnUnefined : true
+});
 
 module.exports = function Rigging(opts) {
     var state = {
@@ -12,24 +17,20 @@ module.exports = function Rigging(opts) {
 
     var self = this;
 
-    Handlebars.registerHelper('goto', function(id, text) {
-        return new Handlebars.SafeString('<a href="#" onclick="rigging.render(' + id + ')">' + text + '</a>');
+    env.addFilter('link', function(text, id) {
+        return '<a href="#" onclick="rigging.render(' + id + ')">' + text + '</a>';
     });
-
-    this.set = function(name, val) {
-        state.vars[name] = val;
-    };
-
-    this.get = function(name) {
-        return state.vars[name];
-    };
 
     this.parse = function(blob) {
         var parts = blob.split('--').map(function(part) {
-             var template = Handlebars.compile(part);
+             var template = Nunjucks.compile(part, env);
 
              return function(state) {
-                 return template(state.vars);
+                 try {
+                     return template.render(state.vars);
+                 } catch (e) {
+                     opts.onError(e);
+                 }
              }
          });
 

@@ -4,11 +4,12 @@
 	
         <link href="https://cdn.quilljs.com/1.1.4/quill.bubble.css" rel="stylesheet">
         <style>
-             * { background: white; }
              #container { display : flex; }
              #container > div { flex : 1 1 auto; width : 50%; }
              #editor { background : #fafbea; }
              #view { border-left : 1px solid #ccc; }
+             #error { background : #ef8e8e; color : #fff; }
+
         </style>
 	</head>
 	<body>
@@ -19,6 +20,8 @@
             <div id="view">
             </div>
         </div>
+        <div id="error"></div>
+
         <script src="https://cdn.quilljs.com/1.1.4/quill.js"></script>
         <script>
             Rigging = require('./src/rigging');
@@ -31,6 +34,10 @@
               var rigging = new Rigging({
                   render : function(html) {
                       document.querySelector('#view').innerHTML = html;
+                  },
+                  onError : function(err) {
+                      document.querySelector('#error').innerHTML = 
+                          '<div class="error">' + err.stack + '</div>'
                   }
               });
 

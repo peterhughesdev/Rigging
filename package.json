@@ -1,13 +1,13 @@
 {
-    "name": "rigging",
-    "version": "1.0.0",
-    "description": "",
-    "main": "main.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "electron main.js",
-        "build": "electron-packager . --arch=x64 --icon=currency-conversion.icns --out=build --overwrite=true"
-    },
+  "name": "rigging",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron main.js",
+    "build": "electron-packager . --arch=x64 --icon=currency-conversion.icns --out=build --overwrite=true"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/peterhughesdev/Rigging.git"
@@ -18,11 +18,12 @@
     "url": "https://github.com/peterhughesdev/Rigging/issues"
   },
   "homepage": "https://github.com/peterhughesdev/Rigging#readme",
-  "dependencies" : {
-      "handlebars" : "^4.0.5"
+  "dependencies": {
+    "handlebars": "^4.0.5",
+    "nunjucks": "^3.0.0"
   },
   "devDependencies": {
-      "electron-packager": "^7.0.1",
-      "electron-prebuilt": "^1.1.0"
-    }
+    "electron-packager": "^7.0.1",
+    "electron-prebuilt": "^1.1.0"
+  }
 }
