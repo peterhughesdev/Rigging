@@ -45,7 +45,7 @@ module.exports = function Rigging(opts) {
         var titles = blob.match(matcher) || [];
 
         if (titles.length === sections.length - 1) {
-            titles.unshift('start');
+            titles.unshift('--start--');
         }
 
         var parts = {};

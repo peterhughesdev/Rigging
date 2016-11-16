@@ -14,6 +14,8 @@
 	</head>
 	<body>
         <div id="container">
+            <button id="load-file">Load</button>
+            <button id="save-file">Save</button>
             <div id="editor">
                 <p>Start writing...</p>
             </div>
@@ -24,9 +26,14 @@
 
         <script src="https://cdn.quilljs.com/1.1.4/quill.js"></script>
         <script>
+            var fs = require('fs');
+            var dialog = require('electron').remote.dialog;
+
             Rigging = require('./src/rigging');
         </script>
         <script>
+              var currentFile = null;
+
               var quill = new Quill('#editor', {
                   theme: 'bubble'
               });
@@ -42,6 +49,38 @@
 
               quill.on('text-change', function() {
                   rigging.parse(quill.getText());
+              });
+
+              document.getElementById('load-file').addEventListener('click', function() {
+                  dialog.showOpenDialog(function(filename) {
+                      fs.readFile(filename[0], 'utf-8', function(err, data) {
+                          if (err) {
+                              console.log(err);
+                          } else {
+                              currentFile = filename[0];
+                              quill.setText(data);
+                              rigging.parse(data);
+                          }
+                      });
+                  }); 
+              });
+
+
+              function save(filename) {
+                  fs.writeFile(filename, quill.getText(), function(e) {
+                      if (e) { console.log(e); }
+                  });    
+              }
+
+              document.getElementById('save-file').addEventListener('click', function() {
+                  if (currentFile) {
+                     save(currentFile); 
+                  } else {
+                      dialog.showSaveDialog(function(filename) {
+                          currentFile = filename;
+                          save(filename);
+                      });
+                  }
               });
         </script>
     </body>
