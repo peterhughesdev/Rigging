@@ -13,9 +13,9 @@
         </style>
 	</head>
 	<body>
-        <div id="container">
             <button id="load-file">Load</button>
             <button id="save-file">Save</button>
+        <div id="container">
             <div id="editor">
                 <p>Start writing...</p>
             </div>
@@ -58,8 +58,10 @@
                               console.log(err);
                           } else {
                               currentFile = filename[0];
-                              quill.setText(data);
-                              rigging.parse(data);
+
+                              var contents = JSON.parse(data);
+                              quill.setContents(contents);
+                              rigging.parse(quill.getText());
                           }
                       });
                   }); 
@@ -67,7 +69,9 @@
 
 
               function save(filename) {
-                  fs.writeFile(filename, quill.getText(), function(e) {
+                  var contents = JSON.stringify(quill.getContents(), null, 2);
+
+                  fs.writeFile(filename, contents, function(e) {
                       if (e) { console.log(e); }
                   });    
               }
