@@ -12,13 +12,13 @@ module.exports = function Rigging(opts) {
             foo : "World"
         },
         parts : [],
-        current : 0
+        current : 'start' 
     };
 
     var self = this;
 
     env.addFilter('link', function(text, id) {
-        return '<a href="#" onclick="rigging.render(' + id + ')">' + text + '</a>';
+        return '<a href="#" onclick="rigging.render(\'' + id + '\')">' + text + '</a>';
     });
 
     env.addExtension('var', {
@@ -38,17 +38,30 @@ module.exports = function Rigging(opts) {
         }
     });
 
+    var matcher = /--[a-zA-Z]*--/g;
+
     this.parse = function(blob) {
-        var parts = blob.split('--').map(function(part) {
+        var sections = blob.split(matcher) || [];
+        var titles = blob.match(matcher) || [];
+
+        if (titles.length === sections.length - 1) {
+            titles.unshift('start');
+        }
+
+        var parts = {};
+        
+        sections.forEach(function(part, i) {
              var template = Nunjucks.compile(part, env);
 
-             return function(state) {
+             var title = titles[i].substring(2, titles[i].length - 2);
+
+             parts[title] = function(state) {
                  try {
                      return template.render(state.vars);
                  } catch (e) {
                      opts.onError(e);
                  }
-             }
+             };
          });
 
          state.parts = parts;
