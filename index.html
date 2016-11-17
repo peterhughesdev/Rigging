@@ -26,8 +26,9 @@
 
         <script src="https://cdn.quilljs.com/1.1.4/quill.js"></script>
         <script>
-            var fs = require('fs');
             var dialog = require('electron').remote.dialog;
+            var render = require('quill-render');
+            var fs = require('fs');
 
             Rigging = require('./src/rigging');
         </script>
@@ -47,9 +48,12 @@
                   }
               });
 
-              quill.on('text-change', function() {
-                  rigging.parse(quill.getText());
-              });
+              function parseContents() {
+                  rigging.parse(render(quill.getContents().ops));
+              }
+
+              quill.on('text-change', parseContents);
+              parseContents();
 
               document.getElementById('load-file').addEventListener('click', function() {
                   dialog.showOpenDialog(function(filename) {
@@ -59,9 +63,9 @@
                           } else {
                               currentFile = filename[0];
 
-                              var contents = JSON.parse(data);
-                              quill.setContents(contents);
-                              rigging.parse(quill.getText());
+                              quill.setContents(JSON.parse(data));
+                              
+                              parseContents();
                           }
                       });
                   }); 

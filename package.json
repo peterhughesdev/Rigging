@@ -20,7 +20,8 @@
   "homepage": "https://github.com/peterhughesdev/Rigging#readme",
   "dependencies": {
     "handlebars": "^4.0.5",
-    "nunjucks": "^3.0.0"
+    "nunjucks": "^3.0.0",
+    "quill-render": "^1.0.5"
   },
   "devDependencies": {
     "electron-packager": "^7.0.1",
