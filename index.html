@@ -15,6 +15,7 @@
 	<body>
             <button id="load-file">Load</button>
             <button id="save-file">Save</button>
+            <button id="preview-file">Preview</button>
         <div id="container">
             <div id="editor">
                 <p>Start writing...</p>
@@ -26,7 +27,10 @@
 
         <script src="https://cdn.quilljs.com/1.1.4/quill.js"></script>
         <script>
-            var dialog = require('electron').remote.dialog;
+            var Electron = require('electron');
+            
+            var dialog = Electron.remote.dialog;
+
             var render = require('quill-render');
             var fs = require('fs');
 
@@ -49,7 +53,7 @@
               });
 
               function parseContents() {
-                  rigging.parse(render(quill.getContents().ops));
+                  rigging.parse(render(quill.getContents().ops).replace(/&quot;/g, '"'));
               }
 
               quill.on('text-change', parseContents);
@@ -89,6 +93,38 @@
                           save(filename);
                       });
                   }
+              });
+
+              
+              var Nunjucks = require('nunjucks');
+
+              function createPreview(cb) {
+                  fs.readFile(`${__dirname}/preview.html`, 'utf-8', function(err, data) {
+                      if (err) {
+                          console.log(err);
+                      } else {
+                          var template = Nunjucks.compile(data);
+                          var contents = template.render({
+                              data : JSON.stringify(quill.getContents())
+                          });
+
+                          var filename = `${__dirname}/previews/preview-` + Date.now() + '.html';
+
+                          fs.writeFile(filename, contents, function(err) {
+                              cb(err, filename);
+                          });
+                      }
+                  });
+              }
+
+              document.getElementById('preview-file').addEventListener('click', function() {
+                  createPreview(function(err, filename) {
+                      if (err) {
+                          console.log(err);
+                      } else {
+                          window.open('file://' + filename);
+                      }
+                  });
               });
         </script>
     </body>
