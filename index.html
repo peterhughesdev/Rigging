@@ -13,6 +13,7 @@
         </style>
 	</head>
 	<body>
+            <button id="new-file">New</button>
             <button id="load-file">Load</button>
             <button id="save-file">Save</button>
             <button id="preview-file">Preview</button>
@@ -58,6 +59,12 @@
 
               quill.on('text-change', parseContents);
               parseContents();
+
+              document.getElementById('new-file').addEventListener('click', function() {
+                  currentFile = null;
+                  quill.setText("");
+                  parseContents();
+              });
 
               document.getElementById('load-file').addEventListener('click', function() {
                   dialog.showOpenDialog(function(filename) {
