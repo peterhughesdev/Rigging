@@ -10,9 +10,7 @@ module.exports = function Rigging(opts) {
         vars : {
             greeting : true,
             foo : "World"
-        },
-        parts : [],
-        current : 'start' 
+        }
     };
 
     var self = this;
@@ -64,6 +62,7 @@ module.exports = function Rigging(opts) {
              };
          });
 
+         state.current = titles[0].substring(2, titles[0].length - 2);
          state.parts = parts;
          
          self.render();
