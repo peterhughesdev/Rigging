@@ -19,7 +19,6 @@
             <button id="preview-file">Preview</button>
         <div id="container">
             <div id="editor">
-                <p>Start writing...</p>
             </div>
             <div id="view">
             </div>
@@ -29,17 +28,13 @@
         <script src="https://cdn.quilljs.com/1.1.4/quill.js"></script>
         <script>
             var Electron = require('electron');
-            
+            var render = require('quill-render');
             var dialog = Electron.remote.dialog;
 
-            var render = require('quill-render');
-            var fs = require('fs');
-
-            Rigging = require('./src/rigging');
+            const FileSystem = require('./src/filesystem');
+            const Rigging = require('./src/rigging');
         </script>
         <script>
-              var currentFile = null;
-
               var quill = new Quill('#editor', {
                   theme: 'bubble'
               });
@@ -53,69 +48,38 @@
                   }
               });
 
-              function parseContents() {
+              quill.on('text-change', function() {
                   rigging.parse(render(quill.getContents().ops).replace(/&quot;/g, '"'));
-              }
-
-              quill.on('text-change', parseContents);
-              parseContents();
-
-              document.getElementById('new-file').addEventListener('click', function() {
-                  currentFile = null;
-                  localStorage.setItem('currentFile', currentFile);
-                  quill.setText("");
-                  parseContents();
               });
 
-              function load(filename) {
-                  fs.readFile(filename, 'utf-8', function(err, data) {
-                      if (err) {
-                          console.log(err);
-                      } else {
-                          currentFile = filename;
-                          localStorage.setItem('currentFile', currentFile);
+              quill.setText('Start writing...');
 
-                          quill.setContents(JSON.parse(data));
-                            
-                          parseContents();
-                      }
-                  });
-              }
-
-              document.getElementById('load-file').addEventListener('click', function() {
-                  dialog.showOpenDialog(function(filenames) {
-                      load(filenames[0])
-                  }); 
-              });
-
-
-              window.onload = function() {
-                   currentFile = localStorage.getItem('currentFile');
-                   
-                   if (currentFile) {
-                       load(currentFile);
-                   }
-              }
-
-              function save(filename) {
-                  var contents = JSON.stringify(quill.getContents(), null, 2);
-
-                  fs.writeFile(filename, contents, function(e) {
-                      if (e) { console.log(e); }
-                  });    
-              }
-
-              document.getElementById('save-file').addEventListener('click', function() {
-                  if (currentFile) {
-                     save(currentFile); 
-                  } else {
-                      dialog.showSaveDialog(function(filename) {
-                          currentFile = filename;
-                          save(filename);
+              var fs = new FileSystem({
+                  autoLoad : true,
+                  storage : localStorage,
+                  getContents : function() {
+                      return quill.getContents();
+                  },
+                  setContents : function(contents) {
+                      quill.setContents(contents);
+                  },
+                  onError : function(err) {
+                      console.log(err);
+                  },
+                  getSaveFilename : function(callback) {
+                      dialog.showSaveDialog(callback);
+                  },
+                  getLoadFilename : function(callback) {
+                      dialog.showOpenDialog(function(filenames) {
+                          callback(filenames[0]);
                       });
                   }
               });
 
+
+              document.getElementById('new-file').addEventListener('click', fs.newFile);
+              document.getElementById('save-file').addEventListener('click', fs.saveFile);
+              document.getElementById('load-file').addEventListener('click', fs.loadFile);
               
               var Nunjucks = require('nunjucks');
 
