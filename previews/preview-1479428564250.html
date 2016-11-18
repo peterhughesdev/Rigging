@@ -1,0 +1,32 @@
+<html>
+	<head>
+		<title>Rigging</title>
+        <style>
+            #preview{ background : #fff; }
+        </style>
+    </head>
+    <body>
+        <div id="preview"></div>
+
+        <script>
+        </script>
+
+        <script>
+        var Rigging = require("../src/rigging");
+        var render = require("quill-render");
+
+        var container = document.querySelector("#preview");
+        var data = {"ops":[{"attributes":{"bold":true},"insert":"{{ \"Scene one\" | link(\"two\") }}"},{"insert":"\n--two--\n"},{"attributes":{"italic":true},"insert":"{{ \"Scene two\" | link(\"start\") }}"},{"insert":"\n"}]};
+
+        var rigging = new Rigging({
+            render : function(html) {
+                container.innerHTML = html;
+            }
+        });
+
+        rigging.parse(render(data.ops).replace(/&quot;/g, '"'));
+        </script>
+    </body>
+</html>
+	
+

@@ -120,7 +120,7 @@
               var Nunjucks = require('nunjucks');
 
               function createPreview(cb) {
-                  fs.readFile(`${__dirname}/preview.html`, 'utf-8', function(err, data) {
+                  fs.readFile(`${__dirname}/templates/preview.html`, 'utf-8', function(err, data) {
                       if (err) {
                           console.log(err);
                       } else {

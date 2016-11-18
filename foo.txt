@@ -1,7 +1,0 @@
-{
-   _id : 108faEb124,
-   foo : 1,
-   bar : 124214,
-   template : "tpl_124",
-   passage : "This is a thing that goes {{link: 215fae3ba|somewhere}}"
-}
